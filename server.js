@@ -7,6 +7,7 @@ const cors = require("cors");
 const express = require("express");
 const multer = require("multer");
 const {v4:uuid} = require("uuid");
+
 //
 
 const server = express();
@@ -70,8 +71,9 @@ server.post('/user/foto', multerMiddle.single('imagefile'),(req, res) =>{
 
 
     let path = `${req.file.destination}/${req.file.filename}`;
-    let user = { email : req.body.email, name : req.body.name, pass : req.body.pass, photo :  path};
-    users.push(user);
+    log(path);
+    /* let user = { email : req.body.email, name : req.body.name, pass : req.body.pass, photo :  path};
+    users.push(user); */
 
     res.send(users); 
 });
