@@ -6,7 +6,7 @@ const methodOverride = require("method-override");
 const cors = require("cors");
 const express = require("express");
 const multer = require("multer");
-/* const uuid4 = require("uuid"); */
+const {v4:uuid} = require("uuid");
 //
 
 const server = express();
@@ -58,21 +58,21 @@ const multerConfig = multer.diskStorage({
         cb(null,"./bucket");
     },
     filename:function(req,file,cb){
-        let idImagen =/*  uuid4().split("-")[0] */1;
+        let idImagen = uuid().split("-")[0];
         cb(null,`${idImagen}.${file.originalname}`);
-    }/* falta una coma */
+    }
 
 });
 
 const multerMiddle = multer({storage:multerConfig});
 
-server.post('/user', multerMiddle.single('imagefile'),(req, res) =>{
+server.post('/user/foto', multerMiddle.single('imagefile'),(req, res) =>{
 
 
-    log(req.body);
-    log(req.file);
-    /* let user = { email : req.body.email, name : req.body.name, pass : req.body.pass };
-    users.push(user);*/
+    let path = `${req.file.destination}/${req.file.filename}`;
+    let user = { email : req.body.email, name : req.body.name, pass : req.body.pass, photo :  path};
+    users.push(user);
+
     res.send(users); 
 });
 
