@@ -5,6 +5,8 @@ import express, { response } from "express"; */
 const methodOverride = require("method-override");
 const cors = require("cors");
 const express = require("express");
+const multer = require("muleter");
+const uuid4 = require("uuid");
 //
 
 const server = express();
@@ -46,6 +48,34 @@ server.post('/user', (req, res) =>{
     users.push(user);
     res.send(users);
 });
+
+
+//CREATE CON FOTO
+
+const multerConfig = multer.diskStorage({
+
+    destination : function(req, file, cb) {
+        cb(null,"./bucket");
+    },
+    filename:function(req,file,cb){
+        let idImagen = uuid4().split("-")[0];
+        cb(null,`${idImagen}.${file.originalname}`);
+    }/* falta una coma */
+
+});
+
+const multerMiddle = multer({storage:multerConfig});
+
+server.post('/user', multerMiddle.single('imagefile'),(req, res) =>{
+
+
+    log(req.body);
+    /* let user = { email : req.body.email, name : req.body.name, pass : req.body.pass };
+    users.push(user);*/
+    res.send(users); 
+});
+
+
 
 //DELETE
 
