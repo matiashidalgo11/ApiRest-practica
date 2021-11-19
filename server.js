@@ -5,8 +5,8 @@ import express, { response } from "express"; */
 const methodOverride = require("method-override");
 const cors = require("cors");
 const express = require("express");
-const multer = require("muleter");
-const uuid4 = require("uuid");
+const multer = require("multer");
+/* const uuid4 = require("uuid"); */
 //
 
 const server = express();
@@ -58,7 +58,7 @@ const multerConfig = multer.diskStorage({
         cb(null,"./bucket");
     },
     filename:function(req,file,cb){
-        let idImagen = uuid4().split("-")[0];
+        let idImagen =/*  uuid4().split("-")[0] */1;
         cb(null,`${idImagen}.${file.originalname}`);
     }/* falta una coma */
 
@@ -70,6 +70,7 @@ server.post('/user', multerMiddle.single('imagefile'),(req, res) =>{
 
 
     log(req.body);
+    log(req.file);
     /* let user = { email : req.body.email, name : req.body.name, pass : req.body.pass };
     users.push(user);*/
     res.send(users); 
